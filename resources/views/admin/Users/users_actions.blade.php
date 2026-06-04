@@ -533,7 +533,7 @@
                      </div>
 
                      <div class="form-group text-black-50 mt-3 ">
-                <input name="s_currency" value="{{$user->currency}}" id="s_c" type="hidden">
+                <input name="s_currency" value="{{$user->s_currency}}" id="s_c" type="hidden">
                 <div class="form-group ">
                     <select name="currency" id="select_c" class="form-control   select2" onchange="changecurr()"
                         style="width: 100%">
@@ -567,6 +567,64 @@
      </div>
  </div>
  <!-- /Edit user Modal -->
+
+ <!-- Set Deposit Bank Account Modal -->
+ <div id="depositBankModal" class="modal fade" role="dialog">
+     <div class="modal-dialog">
+         <!-- Modal content-->
+         <div class="modal-content">
+             <div class="modal-header ">
+                 <h4 class="modal-title ">Deposit Bank Account for {{ $user->name }}</h4>
+                 <button type="button" class="close " data-dismiss="modal">&times;</button>
+             </div>
+             <div class="modal-body ">
+                 <p class="text-muted">
+                     These bank details are shown to <strong>{{ $user->name }}</strong> when they choose the
+                     <strong>Bank Transfer</strong> deposit option. All fields are optional, but the Bank Transfer
+                     option stays hidden for this user until at least a bank name or account number is set.
+                 </p>
+                 <form role="form" method="post" action="{{ route('updatedepositbank') }}">
+                     @csrf
+                     <div class="form-group">
+                         <h5 class=" ">Bank Name</h5>
+                         <input class="form-control  " value="{{ $user->deposit_bank_name }}" type="text"
+                             name="deposit_bank_name" placeholder="e.g. Bank of America">
+                     </div>
+                     <div class="form-group">
+                         <h5 class=" ">Account Name</h5>
+                         <input class="form-control  " value="{{ $user->deposit_account_name }}" type="text"
+                             name="deposit_account_name" placeholder="Account holder / beneficiary name">
+                     </div>
+                     <div class="form-group">
+                         <h5 class=" ">Account Number</h5>
+                         <input class="form-control  " value="{{ $user->deposit_account_number }}" type="text"
+                             name="deposit_account_number" placeholder="Account number">
+                     </div>
+                     <div class="form-group">
+                         <h5 class=" ">SWIFT / BIC</h5>
+                         <input class="form-control  " value="{{ $user->deposit_swift_code }}" type="text"
+                             name="deposit_swift_code" placeholder="SWIFT / BIC code">
+                     </div>
+                     <div class="form-group">
+                         <h5 class=" ">IBAN</h5>
+                         <input class="form-control  " value="{{ $user->deposit_iban }}" type="text"
+                             name="deposit_iban" placeholder="IBAN">
+                     </div>
+                     <div class="form-group">
+                         <h5 class=" ">Notes / Instructions</h5>
+                         <textarea class="form-control  " name="deposit_bank_notes" rows="3"
+                             placeholder="Optional reference/memo or extra instructions shown to the user">{{ $user->deposit_bank_notes }}</textarea>
+                     </div>
+                     <div class="form-group">
+                         <input type="hidden" name="user_id" value="{{ $user->id }}">
+                         <input type="submit" class="btn btn-primary" value="Save Deposit Bank Account">
+                     </div>
+                 </form>
+             </div>
+         </div>
+     </div>
+ </div>
+ <!-- /Set Deposit Bank Account Modal -->
 
  <!-- Reset user password Modal -->
  <div id="resetpswdModal" class="modal fade" role="dialog">

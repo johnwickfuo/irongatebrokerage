@@ -573,6 +573,23 @@ public function deleteloan($id)
         return redirect()->back()->with('success', 'User details updated Successfully!');
     }
 
+    //Set/update the deposit bank account assigned to a specific user
+    //for Bank Transfer deposits. All fields are optional.
+    public function updateDepositBank(Request $request)
+    {
+        User::where('id', $request['user_id'])
+            ->update([
+                'deposit_bank_name' => $request['deposit_bank_name'],
+                'deposit_account_name' => $request['deposit_account_name'],
+                'deposit_account_number' => $request['deposit_account_number'],
+                'deposit_swift_code' => $request['deposit_swift_code'],
+                'deposit_iban' => $request['deposit_iban'],
+                'deposit_bank_notes' => $request['deposit_bank_notes'],
+            ]);
+
+        return redirect()->back()->with('success', 'Deposit bank account updated Successfully!');
+    }
+
     //numberoftrades
 
     public function  numberoftrades(Request $request)

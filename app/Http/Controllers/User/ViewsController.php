@@ -306,6 +306,14 @@ class ViewsController extends Controller
                 ->orWhere('type', '=', 'both');
         })->where('status', 'enabled')->orderByDesc('id')->get();
 
+        // Hide the Bank Transfer option unless the admin has assigned a
+        // deposit bank account to this specific user.
+        if (!Auth::user()->hasDepositBank()) {
+            $paymethod = $paymethod->reject(function ($method) {
+                return stripos($method->name, 'bank') !== false;
+            })->values();
+        }
+
         //sum total deposited
         $total_deposited = DB::table('deposits')->where('user', auth()->user()->id)->where('status', 'Processed')->sum('amount');
 

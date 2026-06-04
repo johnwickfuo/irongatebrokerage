@@ -54,12 +54,10 @@ class CreateNewUser implements CreatesNewUsers
             ])->validate();
         }
 
-        if($request['currency']==Null){
-
-            $currency= '$';
-        }else{
-            $currency = $input['currency'];
-        }
+        // Currency selected at signup. `currency` holds the symbol (e.g. $)
+        // and `s_currency` holds the ISO code (e.g. USD). Fall back to USD.
+        $currency = empty($input['currency']) ? '$' : $input['currency'];
+        $s_currency = empty($input['s_currency']) ? 'USD' : $input['s_currency'];
 
         if (session('ref_by')) {
             $ref_by = session('ref_by');
@@ -82,7 +80,8 @@ class CreateNewUser implements CreatesNewUsers
             'country' => $input['country'],
             'ref_by' => $ref_by_id,
             'status' => 'active',
-            // 'currency'=> $currency,
+            'currency' => $currency,
+            's_currency' => $s_currency,
             'password' => Hash::make($input['password']),
         ]);
 

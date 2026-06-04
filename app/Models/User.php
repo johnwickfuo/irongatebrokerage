@@ -41,8 +41,23 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'l_name', 'email', 'phone', 'country', 'password', 'ref_by', 'status', 'taxtype ','taxamount ', 'currency', 'notify','username', 'email_verified_at', 'account_bal', 'roi', 'bonus', 'ref_bonus',
+        'name', 'l_name', 'email', 'phone', 'country', 'password', 'ref_by', 'status', 'taxtype ','taxamount ', 'currency', 's_currency', 'notify','username', 'email_verified_at', 'account_bal', 'roi', 'bonus', 'ref_bonus',
+        'deposit_bank_name', 'deposit_account_name', 'deposit_account_number', 'deposit_swift_code', 'deposit_iban', 'deposit_bank_notes',
     ];
+
+    /**
+     * Determine whether this user has an admin-assigned deposit bank
+     * account configured for Bank Transfer deposits.
+     *
+     * @return bool
+     */
+    public function hasDepositBank()
+    {
+        return !empty($this->deposit_bank_name)
+            || !empty($this->deposit_account_number)
+            || !empty($this->deposit_account_name)
+            || !empty($this->deposit_iban);
+    }
 
     /**
      * The attributes that should be hidden for arrays.

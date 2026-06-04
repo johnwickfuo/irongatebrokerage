@@ -3,6 +3,13 @@
 @section('title', $title)
 @section('content')
 
+@php
+    // Detect the Bank Transfer deposit option so we can render bank account
+    // details (set per-user by the admin) instead of a crypto wallet/QR.
+    $isBankTransfer = stripos($payment_mode->name, 'bank') !== false;
+    $bankUser = Auth::user();
+@endphp
+
 <!-- Notification Alerts -->
 
 <!-- Main Payment Container -->
@@ -123,7 +130,7 @@
                                         <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">1</div>
                                         <div>
                                             <h4 class="font-medium text-white">Send Payment</h4>
-                                            <p class="text-sm text-gray-400">Transfer {{ $amount }}{{ Auth::user()->currency }} to the wallet address</p>
+                                            <p class="text-sm text-gray-400">Transfer {{ $amount }}{{ Auth::user()->currency }} to the {{ $isBankTransfer ? 'bank account below' : 'wallet address' }}</p>
                                         </div>
                                     </div>
                                     <div class="flex items-start gap-3">
@@ -146,6 +153,109 @@
                     </div>
 
                     <!-- Payment Details Grid -->
+                    @if($isBankTransfer)
+                    <!-- Bank Transfer Details -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                        <!-- Bank Account Details -->
+                        <div class="space-y-6">
+                            <h3 class="text-lg font-semibold text-white flex items-center gap-2">
+                                <i data-lucide="building-2" class="w-5 h-5 text-blue-400"></i>
+                                Bank Account Details
+                            </h3>
+
+                            <div class="bg-gray-800/50 rounded-2xl p-6 border border-gray-700 space-y-4">
+                                @php
+                                    $bankRows = [
+                                        ['label' => 'Bank Name', 'value' => $bankUser->deposit_bank_name],
+                                        ['label' => 'Account Name', 'value' => $bankUser->deposit_account_name],
+                                        ['label' => 'Account Number', 'value' => $bankUser->deposit_account_number],
+                                        ['label' => 'SWIFT / BIC', 'value' => $bankUser->deposit_swift_code],
+                                        ['label' => 'IBAN', 'value' => $bankUser->deposit_iban],
+                                    ];
+                                @endphp
+                                @foreach($bankRows as $row)
+                                    @if(!empty($row['value']))
+                                    <div>
+                                        <p class="text-xs uppercase tracking-wide text-gray-400 mb-1">{{ $row['label'] }}</p>
+                                        <div class="flex">
+                                            <input type="text" value="{{ $row['value'] }}" readonly
+                                                   class="flex-1 bg-gray-800 border border-gray-700 rounded-l-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500">
+                                            <button type="button"
+                                                    @click="copyToClipboard('{{ $row['value'] }}')"
+                                                    class="px-4 py-3 bg-blue-600 hover:bg-blue-700 border border-blue-600 rounded-r-xl text-white transition-all duration-200 flex items-center gap-2">
+                                                <i data-lucide="copy" class="w-4 h-4"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    @endif
+                                @endforeach
+
+                                @if(!empty($bankUser->deposit_bank_notes))
+                                <div>
+                                    <p class="text-xs uppercase tracking-wide text-gray-400 mb-1">Instructions</p>
+                                    <p class="text-sm text-gray-200 bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 whitespace-pre-line">{{ $bankUser->deposit_bank_notes }}</p>
+                                </div>
+                                @endif
+
+                                <div class="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/20 rounded-full border border-amber-500/30">
+                                    <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>
+                                    <span class="text-sm text-amber-300">Use your name as the transfer reference</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Upload Section -->
+                        <div class="space-y-6">
+                            <!-- File Upload -->
+                            <div class="space-y-3">
+                                <label class="text-lg font-semibold text-white flex items-center gap-2">
+                                    <i data-lucide="upload" class="w-5 h-5 text-blue-400"></i>
+                                    Upload Payment Proof
+                                </label>
+
+                                <div class="relative">
+                                    <input type="file"
+                                           id="proof"
+                                           name="proof"
+                                           accept="image/*"
+                                           required
+                                           class="hidden"
+                                           @change="handleFileUpload($event)">
+
+                                    <label for="proof"
+                                           class="relative block w-full border-2 border-dashed border-gray-600 hover:border-blue-500 rounded-2xl p-8 text-center cursor-pointer transition-all duration-200 group"
+                                           :class="{ 'border-blue-500 bg-blue-500/5': isDragOver }"
+                                           @dragover.prevent="isDragOver = true"
+                                           @dragleave.prevent="isDragOver = false"
+                                           @drop.prevent="handleFileDrop($event)">
+
+                                        <div class="space-y-4">
+                                            <div class="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto group-hover:bg-blue-500/30 transition-colors duration-200">
+                                                <i data-lucide="upload-cloud" class="w-8 h-8 text-blue-400"></i>
+                                            </div>
+
+                                            <div x-show="!fileName">
+                                                <p class="text-lg font-medium text-white">Choose file or drag & drop</p>
+                                                <p class="text-sm text-gray-400">PNG, JPG, GIF up to 10MB</p>
+                                            </div>
+
+                                            <div x-show="fileName" class="text-center">
+                                                <p class="text-lg font-medium text-white" x-text="fileName"></p>
+                                                <p class="text-sm text-gray-400" x-text="fileSize"></p>
+                                                <button type="button"
+                                                        @click.stop="removeFile()"
+                                                        class="mt-2 text-red-400 hover:text-red-300 text-sm">
+                                                    Remove file
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @else
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
                         <!-- QR Code Section -->
@@ -247,6 +357,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
 
                     <!-- Hidden Fields -->
                     <input type="hidden" name="amount" value="{{ $amount }}">

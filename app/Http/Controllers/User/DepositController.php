@@ -35,6 +35,13 @@ class DepositController extends Controller
         $settings = Settings::where('id', '1')->first();
         $methodname =  Wdmethod::where('name', $request->payment_method)->first();
 
+        // Block Bank Transfer deposits unless the admin has assigned a
+        // deposit bank account to this user.
+        if ($methodname && stripos($methodname->name, 'bank') !== false && !Auth::user()->hasDepositBank()) {
+            return redirect()->route('deposits')
+                ->with('message', 'Bank Transfer is not available for your account yet. Please contact support or use another payment method.');
+        }
+
 
 
         if ($methodname->name == "Credit Card" and $settings->credit_card_provider == "Stripe") {

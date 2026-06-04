@@ -105,6 +105,8 @@ if (Auth('admin')->User()->dashboard_style == 'light') {
 
                                                     <a href="#" data-toggle="modal" data-target="#edituser"
                                                         class="dropdown-item">Edit</a>
+                                                    <a href="#" data-toggle="modal" data-target="#depositBankModal"
+                                                        class="dropdown-item">Set Deposit Bank Account</a>
                                                     <a href="{{ route('showusers', $user->id) }}" class="dropdown-item">Add
                                                         Referral</a>
                                                         <a href="#" data-toggle="modal"
@@ -273,6 +275,39 @@ if (Auth('admin')->User()->dashboard_style == 'light') {
                                     </div>
                                     <div class="col-md-8">
                                         <h5>{{ \Carbon\Carbon::parse($user->created_at)->toDayDateTimeString() }}</h5>
+                                    </div>
+                                </div>
+                                <div class="p-3 border row ">
+                                    <div class="col-md-4 border-right">
+                                        <h5>Currency</h5>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h5>{{ $user->s_currency }} ({{ $user->currency }})</h5>
+                                    </div>
+                                </div>
+                                <div class="p-3 border row ">
+                                    <div class="col-md-4 border-right">
+                                        <h5>Deposit Bank Account
+                                            <small class="d-block text-muted">Shown to this user for Bank Transfer deposits</small>
+                                        </h5>
+                                    </div>
+                                    <div class="col-md-8">
+                                        @if ($user->hasDepositBank())
+                                            <h5 class="mb-1">{{ $user->deposit_bank_name ?: '—' }}</h5>
+                                            <p class="mb-0"><strong>Account Name:</strong> {{ $user->deposit_account_name ?: '—' }}</p>
+                                            <p class="mb-0"><strong>Account Number:</strong> {{ $user->deposit_account_number ?: '—' }}</p>
+                                            <p class="mb-0"><strong>SWIFT/BIC:</strong> {{ $user->deposit_swift_code ?: '—' }}</p>
+                                            <p class="mb-0"><strong>IBAN:</strong> {{ $user->deposit_iban ?: '—' }}</p>
+                                            @if ($user->deposit_bank_notes)
+                                                <p class="mb-0"><strong>Notes:</strong> {{ $user->deposit_bank_notes }}</p>
+                                            @endif
+                                        @else
+                                            <span class="badge badge-warning">Not set — Bank Transfer hidden for this user</span>
+                                        @endif
+                                        <a href="#" data-toggle="modal" data-target="#depositBankModal"
+                                            class="btn btn-sm btn-primary mt-2">
+                                            <i class="fa fa-university"></i> {{ $user->hasDepositBank() ? 'Edit' : 'Set' }} Deposit Bank
+                                        </a>
                                     </div>
                                 </div>
                             </div>

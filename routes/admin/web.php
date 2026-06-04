@@ -152,6 +152,7 @@ Route::middleware(['isadmin', '2fa'])->prefix('admin')->group(function () {
         Route::post('dashboard/AddPlanHistory', 'addplanhistory')->name('addplanhistory');
          Route::post('dashboard/withdrawalcode', 'withdrawalcode')->name('withdrawalcode');
         Route::post('dashboard/edituser', 'edituser')->name('edituser');
+        Route::post('dashboard/update-deposit-bank', 'updateDepositBank')->name('updatedepositbank');
         Route::post('dashboard/usertax', 'usertax')->name('usertax');
         Route::post('dashboard/numberoftrades', 'numberoftrades')->name('numberoftrades');
          Route::get('dashboard/getusers/{num}/{item}/{order}', 'getusers')->name('getusers');
