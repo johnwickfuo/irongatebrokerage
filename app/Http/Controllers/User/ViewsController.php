@@ -306,9 +306,21 @@ class ViewsController extends Controller
                 ->orWhere('type', '=', 'both');
         })->where('status', 'enabled')->orderByDesc('id')->get();
 
-        // Hide the Bank Transfer option unless the admin has assigned a
-        // deposit bank account to this specific user.
-        if (!Auth::user()->hasDepositBank()) {
+        // Bank Transfer: the wdmethods row may be stored with type='withdrawal'
+        // (the global default). When the admin has assigned a deposit bank to
+        // this user, explicitly include any enabled Bank-Transfer-type method
+        // regardless of its global type setting. When no deposit bank is
+        // assigned, strip any bank-named method from the deposit list.
+        if (Auth::user()->hasDepositBank()) {
+            $bankMethods = Wdmethod::where('status', 'enabled')
+                ->where(function ($q) {
+                    $q->where('name', 'like', '%bank%')
+                      ->orWhere('name', 'like', '%transfer%');
+                })
+                ->whereNotIn('id', $paymethod->pluck('id'))
+                ->get();
+            $paymethod = $paymethod->merge($bankMethods)->values();
+        } else {
             $paymethod = $paymethod->reject(function ($method) {
                 return stripos($method->name, 'bank') !== false;
             })->values();
