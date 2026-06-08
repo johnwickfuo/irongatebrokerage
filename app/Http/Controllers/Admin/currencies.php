@@ -1,196 +1,166 @@
 <?php
+// Each entry: 'Full Currency Name' => ['code' => 'ISO-4217', 'symbol' => '...']
+// Sorted alphabetically by full name.
+// Symbol is used for display; code is stored in the s_currency column.
 $currencies = array(
-	// ── North America ────────────────────────────────────────────────
-	'USD' => '&#36;',           // US Dollar
-	'CAD' => 'CA&#36;',         // Canadian Dollar
-	'MXN' => '&#36;',           // Mexican Peso
-	'GTQ' => 'Q',               // Guatemalan Quetzal
-	'BZD' => 'BZ&#36;',         // Belize Dollar
-	'HNL' => 'L',               // Honduran Lempira
-	'NIO' => 'C&#36;',          // Nicaraguan Córdoba
-	'CRC' => '&#8353;',         // Costa Rican Colón
-	'PAB' => 'B/.',             // Panamanian Balboa
-	'CUP' => '&#36;',           // Cuban Peso
-	'DOP' => 'RD&#36;',         // Dominican Peso
-	'HTG' => 'G',               // Haitian Gourde
-	'JMD' => 'J&#36;',          // Jamaican Dollar
-	'TTD' => 'TT&#36;',         // Trinidad & Tobago Dollar
-	'BBD' => 'Bds&#36;',        // Barbadian Dollar
-	'XCD' => 'EC&#36;',         // East Caribbean Dollar
-	'BSD' => 'B&#36;',          // Bahamian Dollar
-	'KYD' => 'CI&#36;',         // Cayman Islands Dollar
-	'AWG' => '&#402;',          // Aruban Florin
-	'ANG' => '&#402;',          // Netherlands Antillean Guilder
-	'BMD' => 'BD&#36;',         // Bermudian Dollar
-	'CUC' => '&#36;',           // Cuban Convertible Peso
-
-	// ── South America ────────────────────────────────────────────────
-	'BRL' => 'R&#36;',          // Brazilian Real
-	'ARS' => '&#36;',           // Argentine Peso
-	'CLP' => '&#36;',           // Chilean Peso
-	'COP' => '&#36;',           // Colombian Peso
-	'PEN' => 'S/.',             // Peruvian Sol
-	'VES' => 'Bs.S',            // Venezuelan Bolívar Soberano
-	'BOB' => 'Bs.',             // Bolivian Boliviano
-	'PYG' => '&#8370;',         // Paraguayan Guaraní
-	'UYU' => '&#36;U',          // Uruguayan Peso
-	'GYD' => 'G&#36;',          // Guyanese Dollar
-	'SRD' => 'SR&#36;',         // Surinamese Dollar
-	'FKP' => '&#163;',          // Falkland Islands Pound
-
-	// ── Europe ───────────────────────────────────────────────────────
-	'EUR' => '&#8364;',         // Euro
-	'GBP' => '&#163;',          // British Pound
-	'CHF' => 'Fr',              // Swiss Franc
-	'NOK' => 'kr',              // Norwegian Krone
-	'SEK' => 'kr',              // Swedish Krona
-	'DKK' => 'kr',              // Danish Krone
-	'PLN' => 'z&#322;',         // Polish Zloty
-	'CZK' => 'K&#269;',         // Czech Koruna
-	'HUF' => 'Ft',              // Hungarian Forint
-	'RON' => 'lei',             // Romanian Leu
-	'BGN' => '&#1083;&#1074;',  // Bulgarian Lev
-	'HRK' => 'kn',              // Croatian Kuna
-	'RSD' => 'din',             // Serbian Dinar
-	'BAM' => 'KM',              // Bosnia-Herzegovina Mark
-	'MKD' => '&#1076;&#1077;&#1085;', // Macedonian Denar
-	'ALL' => 'L',               // Albanian Lek
-	'RUB' => '&#8381;',         // Russian Ruble
-	'UAH' => '&#8372;',         // Ukrainian Hryvnia
-	'BYN' => 'Br',              // Belarusian Ruble
-	'GEL' => '&#8382;',         // Georgian Lari
-	'AMD' => '&#1423;',         // Armenian Dram
-	'AZN' => '&#8371;',         // Azerbaijani Manat
-	'MDL' => 'L',               // Moldovan Leu
-	'ISK' => 'kr',              // Icelandic Króna
-	'HKD' => 'HK&#36;',         // (listed under Asia too; canonical entry here)
-	'TRY' => '&#8378;',         // Turkish Lira
-	'GIP' => '&#163;',          // Gibraltar Pound
-	'JEP' => '&#163;',          // Jersey Pound
-	'GGP' => '&#163;',          // Guernsey Pound
-	'IMP' => '&#163;',          // Isle of Man Pound
-	'SHP' => '&#163;',          // Saint Helena Pound
-
-	// ── Middle East ──────────────────────────────────────────────────
-	'AED' => '&#1583;.&#1573;', // UAE Dirham
-	'SAR' => '&#65020;',        // Saudi Riyal
-	'QAR' => '&#65020;',        // Qatari Riyal
-	'KWD' => '&#1583;.&#1603;', // Kuwaiti Dinar
-	'BHD' => '&#1583;.&#1576;', // Bahraini Dinar
-	'OMR' => '&#65020;',        // Omani Rial
-	'JOD' => '&#1583;.&#1575;', // Jordanian Dinar
-	'ILS' => '&#8362;',         // Israeli New Shekel
-	'IQD' => '&#1593;.&#1583;', // Iraqi Dinar
-	'IRR' => '&#65020;',        // Iranian Rial
-	'YER' => '&#65020;',        // Yemeni Rial
-	'SYP' => '&#163;',          // Syrian Pound
-	'LBP' => '&#163;',          // Lebanese Pound
-
-	// ── Asia – East & South-East ─────────────────────────────────────
-	'CNY' => '&#165;',          // Chinese Yuan
-	'JPY' => '&#165;',          // Japanese Yen
-	'KRW' => '&#8361;',         // South Korean Won
-	'SGD' => 'S&#36;',          // Singapore Dollar
-	'HKD' => 'HK&#36;',         // Hong Kong Dollar
-	'TWD' => 'NT&#36;',         // New Taiwan Dollar
-	'MYR' => 'RM',              // Malaysian Ringgit
-	'THB' => '&#3647;',         // Thai Baht
-	'PHP' => '&#8369;',         // Philippine Peso
-	'IDR' => 'Rp',              // Indonesian Rupiah
-	'VND' => '&#8363;',         // Vietnamese Dong
-	'MMK' => 'K',               // Myanmar Kyat
-	'KHR' => '&#6107;',         // Cambodian Riel
-	'LAK' => '&#8365;',         // Lao Kip
-	'BND' => 'B&#36;',          // Brunei Dollar
-	'MOP' => 'P',               // Macanese Pataca
-	'MNT' => '&#8366;',         // Mongolian Tögrög
-	'KPW' => '&#8361;',         // North Korean Won
-
-	// ── Asia – South ─────────────────────────────────────────────────
-	'INR' => '&#8377;',         // Indian Rupee
-	'PKR' => '&#8360;',         // Pakistani Rupee
-	'BDT' => '&#2547;',         // Bangladeshi Taka
-	'LKR' => '&#8360;',         // Sri Lankan Rupee
-	'NPR' => '&#8360;',         // Nepalese Rupee
-	'MVR' => 'Rf',              // Maldivian Rufiyaa
-	'BTN' => 'Nu',              // Bhutanese Ngultrum
-
-	// ── Asia – Central ───────────────────────────────────────────────
-	'KZT' => '&#8376;',         // Kazakhstani Tenge
-	'UZS' => '&#1083;&#1074;',  // Uzbekistani Sum
-	'TJS' => 'SM',              // Tajikistani Somoni
-	'KGS' => '&#1083;&#1074;',  // Kyrgystani Som
-	'TMT' => 'T',               // Turkmenistani Manat
-	'AFN' => '&#1547;',         // Afghan Afghani
-
-	// ── Oceania ──────────────────────────────────────────────────────
-	'AUD' => 'A&#36;',          // Australian Dollar
-	'NZD' => 'NZ&#36;',         // New Zealand Dollar
-	'PGK' => 'K',               // Papua New Guinean Kina
-	'FJD' => 'FJ&#36;',         // Fijian Dollar
-	'SBD' => 'SI&#36;',         // Solomon Islands Dollar
-	'VUV' => 'Vt',              // Vanuatu Vatu
-	'WST' => 'T',               // Samoan Tālā
-	'TOP' => 'T&#36;',          // Tongan Paʻanga
-	'XPF' => 'Fr',              // CFP Franc (French Polynesia / New Caledonia)
-
-	// ── Africa – Southern ────────────────────────────────────────────
-	'ZAR' => 'R',               // South African Rand
-	'BWP' => 'P',               // Botswana Pula  ★
-	'ZMW' => 'ZK',              // Zambian Kwacha
-	'MWK' => 'MK',              // Malawian Kwacha
-	'ZWL' => 'Z&#36;',          // Zimbabwean Dollar
-	'NAD' => 'N&#36;',          // Namibian Dollar
-	'LSL' => 'L',               // Lesotho Loti
-	'SZL' => 'L',               // Swazi Lilangeni (Eswatini)
-	'MZN' => 'MT',              // Mozambican Metical
-	'AOA' => 'Kz',              // Angolan Kwanza
-	'ZMW' => 'ZK',              // Zambian Kwacha (canonical)
-
-	// ── Africa – East ────────────────────────────────────────────────
-	'KES' => 'KSh',             // Kenyan Shilling
-	'TZS' => 'TSh',             // Tanzanian Shilling
-	'UGX' => 'USh',             // Ugandan Shilling
-	'ETB' => 'Br',              // Ethiopian Birr
-	'RWF' => 'RF',              // Rwandan Franc
-	'BIF' => 'Fr',              // Burundian Franc
-	'DJF' => 'Fr',              // Djiboutian Franc
-	'SOS' => 'Sh',              // Somali Shilling
-	'ERN' => 'Nfk',             // Eritrean Nakfa
-	'SSP' => '&#163;',          // South Sudanese Pound
-	'MGA' => 'Ar',              // Malagasy Ariary
-	'SCR' => '&#8360;',         // Seychellois Rupee
-	'KMF' => 'Fr',              // Comorian Franc
-	'MUR' => '&#8360;',         // Mauritian Rupee
-
-	// ── Africa – West ─────────────────────────────────────────────────
-	'NGN' => '&#8358;',         // Nigerian Naira
-	'GHS' => 'GH&#162;',        // Ghanaian Cedi
-	'XOF' => 'Fr',              // West African CFA Franc (Senegal, Mali, Ivory Coast, Burkina Faso, Benin, Niger, Togo, Guinea-Bissau)
-	'GMD' => 'D',               // Gambian Dalasi
-	'GNF' => 'Fr',              // Guinean Franc
-	'SLL' => 'Le',              // Sierra Leonean Leone
-	'LRD' => 'L&#36;',          // Liberian Dollar
-	'CVE' => '&#36;',           // Cape Verdean Escudo
-	'SLE' => 'Le',              // Sierra Leonean Leone (redenominated)
-
-	// ── Africa – Central ─────────────────────────────────────────────
-	'XAF' => 'Fr',              // Central African CFA Franc (Cameroon, CAR, Chad, Congo-Brazzaville, Equatorial Guinea, Gabon)
-	'CDF' => 'Fr',              // Congolese Franc (DRC)
-	'STN' => 'Db',              // São Tomé & Príncipe Dobra
-
-	// ── Africa – North ───────────────────────────────────────────────
-	'EGP' => '&#163;',          // Egyptian Pound
-	'MAD' => 'MAD',             // Moroccan Dirham
-	'TND' => 'DT',              // Tunisian Dinar
-	'DZD' => 'دج',              // Algerian Dinar
-	'LYD' => 'LD',              // Libyan Dinar
-	'SDG' => '&#163;',          // Sudanese Pound
-	'MRU' => 'UM',              // Mauritanian Ouguiya
+	'Afghan Afghani'                    => ['code' => 'AFN',  'symbol' => '&#1547;'],
+	'Albanian Lek'                      => ['code' => 'ALL',  'symbol' => 'L'],
+	'Algerian Dinar'                    => ['code' => 'DZD',  'symbol' => 'دج'],
+	'Angolan Kwanza'                    => ['code' => 'AOA',  'symbol' => 'Kz'],
+	'Argentine Peso'                    => ['code' => 'ARS',  'symbol' => '&#36;'],
+	'Armenian Dram'                     => ['code' => 'AMD',  'symbol' => '&#1423;'],
+	'Aruban Florin'                     => ['code' => 'AWG',  'symbol' => '&#402;'],
+	'Australian Dollar'                 => ['code' => 'AUD',  'symbol' => 'A&#36;'],
+	'Azerbaijani Manat'                 => ['code' => 'AZN',  'symbol' => '&#8371;'],
+	'Bahamian Dollar'                   => ['code' => 'BSD',  'symbol' => 'B&#36;'],
+	'Bahraini Dinar'                    => ['code' => 'BHD',  'symbol' => '&#1583;.&#1576;'],
+	'Bangladeshi Taka'                  => ['code' => 'BDT',  'symbol' => '&#2547;'],
+	'Barbadian Dollar'                  => ['code' => 'BBD',  'symbol' => 'Bds&#36;'],
+	'Belarusian Ruble'                  => ['code' => 'BYN',  'symbol' => 'Br'],
+	'Belize Dollar'                     => ['code' => 'BZD',  'symbol' => 'BZ&#36;'],
+	'Bermudian Dollar'                  => ['code' => 'BMD',  'symbol' => 'BD&#36;'],
+	'Bhutanese Ngultrum'                => ['code' => 'BTN',  'symbol' => 'Nu'],
+	'Bolivian Boliviano'                => ['code' => 'BOB',  'symbol' => 'Bs.'],
+	'Bosnia-Herzegovina Mark'           => ['code' => 'BAM',  'symbol' => 'KM'],
+	'Botswana Pula'                     => ['code' => 'BWP',  'symbol' => 'P'],
+	'Brazilian Real'                    => ['code' => 'BRL',  'symbol' => 'R&#36;'],
+	'British Pound'                     => ['code' => 'GBP',  'symbol' => '&#163;'],
+	'Brunei Dollar'                     => ['code' => 'BND',  'symbol' => 'B&#36;'],
+	'Bulgarian Lev'                     => ['code' => 'BGN',  'symbol' => '&#1083;&#1074;'],
+	'Burundian Franc'                   => ['code' => 'BIF',  'symbol' => 'Fr'],
+	'Canadian Dollar'                   => ['code' => 'CAD',  'symbol' => 'CA&#36;'],
+	'Cape Verdean Escudo'               => ['code' => 'CVE',  'symbol' => '&#36;'],
+	'Cayman Islands Dollar'             => ['code' => 'KYD',  'symbol' => 'CI&#36;'],
+	'Central African CFA Franc'         => ['code' => 'XAF',  'symbol' => 'Fr'],
+	'CFP Franc'                         => ['code' => 'XPF',  'symbol' => 'Fr'],
+	'Chilean Peso'                      => ['code' => 'CLP',  'symbol' => '&#36;'],
+	'Chinese Yuan'                      => ['code' => 'CNY',  'symbol' => '&#165;'],
+	'Colombian Peso'                    => ['code' => 'COP',  'symbol' => '&#36;'],
+	'Comorian Franc'                    => ['code' => 'KMF',  'symbol' => 'Fr'],
+	'Congolese Franc'                   => ['code' => 'CDF',  'symbol' => 'Fr'],
+	'Costa Rican Colón'                 => ['code' => 'CRC',  'symbol' => '&#8353;'],
+	'Croatian Kuna'                     => ['code' => 'HRK',  'symbol' => 'kn'],
+	'Cuban Peso'                        => ['code' => 'CUP',  'symbol' => '&#36;'],
+	'Czech Koruna'                      => ['code' => 'CZK',  'symbol' => 'K&#269;'],
+	'Danish Krone'                      => ['code' => 'DKK',  'symbol' => 'kr'],
+	'Djiboutian Franc'                  => ['code' => 'DJF',  'symbol' => 'Fr'],
+	'Dominican Peso'                    => ['code' => 'DOP',  'symbol' => 'RD&#36;'],
+	'East Caribbean Dollar'             => ['code' => 'XCD',  'symbol' => 'EC&#36;'],
+	'Egyptian Pound'                    => ['code' => 'EGP',  'symbol' => '&#163;'],
+	'Eritrean Nakfa'                    => ['code' => 'ERN',  'symbol' => 'Nfk'],
+	'Ethiopian Birr'                    => ['code' => 'ETB',  'symbol' => 'Br'],
+	'Euro'                              => ['code' => 'EUR',  'symbol' => '&#8364;'],
+	'Falkland Islands Pound'            => ['code' => 'FKP',  'symbol' => '&#163;'],
+	'Fijian Dollar'                     => ['code' => 'FJD',  'symbol' => 'FJ&#36;'],
+	'Gambian Dalasi'                    => ['code' => 'GMD',  'symbol' => 'D'],
+	'Georgian Lari'                     => ['code' => 'GEL',  'symbol' => '&#8382;'],
+	'Ghanaian Cedi'                     => ['code' => 'GHS',  'symbol' => 'GH&#162;'],
+	'Gibraltar Pound'                   => ['code' => 'GIP',  'symbol' => '&#163;'],
+	'Guatemalan Quetzal'                => ['code' => 'GTQ',  'symbol' => 'Q'],
+	'Guinean Franc'                     => ['code' => 'GNF',  'symbol' => 'Fr'],
+	'Guyanese Dollar'                   => ['code' => 'GYD',  'symbol' => 'G&#36;'],
+	'Haitian Gourde'                    => ['code' => 'HTG',  'symbol' => 'G'],
+	'Honduran Lempira'                  => ['code' => 'HNL',  'symbol' => 'L'],
+	'Hong Kong Dollar'                  => ['code' => 'HKD',  'symbol' => 'HK&#36;'],
+	'Hungarian Forint'                  => ['code' => 'HUF',  'symbol' => 'Ft'],
+	'Icelandic Króna'                   => ['code' => 'ISK',  'symbol' => 'kr'],
+	'Indian Rupee'                      => ['code' => 'INR',  'symbol' => '&#8377;'],
+	'Indonesian Rupiah'                 => ['code' => 'IDR',  'symbol' => 'Rp'],
+	'Iranian Rial'                      => ['code' => 'IRR',  'symbol' => '&#65020;'],
+	'Iraqi Dinar'                       => ['code' => 'IQD',  'symbol' => '&#1593;.&#1583;'],
+	'Israeli New Shekel'                => ['code' => 'ILS',  'symbol' => '&#8362;'],
+	'Jamaican Dollar'                   => ['code' => 'JMD',  'symbol' => 'J&#36;'],
+	'Japanese Yen'                      => ['code' => 'JPY',  'symbol' => '&#165;'],
+	'Jordanian Dinar'                   => ['code' => 'JOD',  'symbol' => '&#1583;.&#1575;'],
+	'Kazakhstani Tenge'                 => ['code' => 'KZT',  'symbol' => '&#8376;'],
+	'Kenyan Shilling'                   => ['code' => 'KES',  'symbol' => 'KSh'],
+	'Kuwaiti Dinar'                     => ['code' => 'KWD',  'symbol' => '&#1583;.&#1603;'],
+	'Kyrgystani Som'                    => ['code' => 'KGS',  'symbol' => '&#1083;&#1074;'],
+	'Lao Kip'                           => ['code' => 'LAK',  'symbol' => '&#8365;'],
+	'Lebanese Pound'                    => ['code' => 'LBP',  'symbol' => '&#163;'],
+	'Lesotho Loti'                      => ['code' => 'LSL',  'symbol' => 'L'],
+	'Liberian Dollar'                   => ['code' => 'LRD',  'symbol' => 'L&#36;'],
+	'Libyan Dinar'                      => ['code' => 'LYD',  'symbol' => 'LD'],
+	'Macanese Pataca'                   => ['code' => 'MOP',  'symbol' => 'P'],
+	'Macedonian Denar'                  => ['code' => 'MKD',  'symbol' => '&#1076;&#1077;&#1085;'],
+	'Malagasy Ariary'                   => ['code' => 'MGA',  'symbol' => 'Ar'],
+	'Malawian Kwacha'                   => ['code' => 'MWK',  'symbol' => 'MK'],
+	'Malaysian Ringgit'                 => ['code' => 'MYR',  'symbol' => 'RM'],
+	'Maldivian Rufiyaa'                 => ['code' => 'MVR',  'symbol' => 'Rf'],
+	'Mauritanian Ouguiya'               => ['code' => 'MRU',  'symbol' => 'UM'],
+	'Mauritian Rupee'                   => ['code' => 'MUR',  'symbol' => '&#8360;'],
+	'Mexican Peso'                      => ['code' => 'MXN',  'symbol' => '&#36;'],
+	'Moldovan Leu'                      => ['code' => 'MDL',  'symbol' => 'L'],
+	'Mongolian Tögrög'                  => ['code' => 'MNT',  'symbol' => '&#8366;'],
+	'Moroccan Dirham'                   => ['code' => 'MAD',  'symbol' => 'MAD'],
+	'Mozambican Metical'                => ['code' => 'MZN',  'symbol' => 'MT'],
+	'Myanmar Kyat'                      => ['code' => 'MMK',  'symbol' => 'K'],
+	'Namibian Dollar'                   => ['code' => 'NAD',  'symbol' => 'N&#36;'],
+	'Nepalese Rupee'                    => ['code' => 'NPR',  'symbol' => '&#8360;'],
+	'Netherlands Antillean Guilder'     => ['code' => 'ANG',  'symbol' => '&#402;'],
+	'New Taiwan Dollar'                 => ['code' => 'TWD',  'symbol' => 'NT&#36;'],
+	'New Zealand Dollar'                => ['code' => 'NZD',  'symbol' => 'NZ&#36;'],
+	'Nicaraguan Córdoba'                => ['code' => 'NIO',  'symbol' => 'C&#36;'],
+	'Nigerian Naira'                    => ['code' => 'NGN',  'symbol' => '&#8358;'],
+	'North Korean Won'                  => ['code' => 'KPW',  'symbol' => '&#8361;'],
+	'Norwegian Krone'                   => ['code' => 'NOK',  'symbol' => 'kr'],
+	'Omani Rial'                        => ['code' => 'OMR',  'symbol' => '&#65020;'],
+	'Pakistani Rupee'                   => ['code' => 'PKR',  'symbol' => '&#8360;'],
+	'Panamanian Balboa'                 => ['code' => 'PAB',  'symbol' => 'B/.'],
+	'Papua New Guinean Kina'            => ['code' => 'PGK',  'symbol' => 'K'],
+	'Paraguayan Guaraní'                => ['code' => 'PYG',  'symbol' => '&#8370;'],
+	'Peruvian Sol'                      => ['code' => 'PEN',  'symbol' => 'S/.'],
+	'Philippine Peso'                   => ['code' => 'PHP',  'symbol' => '&#8369;'],
+	'Polish Zloty'                      => ['code' => 'PLN',  'symbol' => 'z&#322;'],
+	'Qatari Riyal'                      => ['code' => 'QAR',  'symbol' => '&#65020;'],
+	'Romanian Leu'                      => ['code' => 'RON',  'symbol' => 'lei'],
+	'Russian Ruble'                     => ['code' => 'RUB',  'symbol' => '&#8381;'],
+	'Rwandan Franc'                     => ['code' => 'RWF',  'symbol' => 'RF'],
+	'Samoan Tālā'                       => ['code' => 'WST',  'symbol' => 'T'],
+	'São Tomé & Príncipe Dobra'         => ['code' => 'STN',  'symbol' => 'Db'],
+	'Saudi Riyal'                       => ['code' => 'SAR',  'symbol' => '&#65020;'],
+	'Serbian Dinar'                     => ['code' => 'RSD',  'symbol' => 'din'],
+	'Seychellois Rupee'                 => ['code' => 'SCR',  'symbol' => '&#8360;'],
+	'Sierra Leonean Leone'              => ['code' => 'SLL',  'symbol' => 'Le'],
+	'Singapore Dollar'                  => ['code' => 'SGD',  'symbol' => 'S&#36;'],
+	'Solomon Islands Dollar'            => ['code' => 'SBD',  'symbol' => 'SI&#36;'],
+	'Somali Shilling'                   => ['code' => 'SOS',  'symbol' => 'Sh'],
+	'South African Rand'                => ['code' => 'ZAR',  'symbol' => 'R'],
+	'South Korean Won'                  => ['code' => 'KRW',  'symbol' => '&#8361;'],
+	'South Sudanese Pound'              => ['code' => 'SSP',  'symbol' => '&#163;'],
+	'Sri Lankan Rupee'                  => ['code' => 'LKR',  'symbol' => '&#8360;'],
+	'Sudanese Pound'                    => ['code' => 'SDG',  'symbol' => '&#163;'],
+	'Surinamese Dollar'                 => ['code' => 'SRD',  'symbol' => 'SR&#36;'],
+	'Swazi Lilangeni'                   => ['code' => 'SZL',  'symbol' => 'L'],
+	'Swedish Krona'                     => ['code' => 'SEK',  'symbol' => 'kr'],
+	'Swiss Franc'                       => ['code' => 'CHF',  'symbol' => 'Fr'],
+	'Syrian Pound'                      => ['code' => 'SYP',  'symbol' => '&#163;'],
+	'Taiwanese Dollar'                  => ['code' => 'TWD',  'symbol' => 'NT&#36;'],
+	'Tajikistani Somoni'                => ['code' => 'TJS',  'symbol' => 'SM'],
+	'Tanzanian Shilling'                => ['code' => 'TZS',  'symbol' => 'TSh'],
+	'Thai Baht'                         => ['code' => 'THB',  'symbol' => '&#3647;'],
+	'Tongan Paʻanga'                    => ['code' => 'TOP',  'symbol' => 'T&#36;'],
+	'Trinidad & Tobago Dollar'          => ['code' => 'TTD',  'symbol' => 'TT&#36;'],
+	'Tunisian Dinar'                    => ['code' => 'TND',  'symbol' => 'DT'],
+	'Turkmenistani Manat'               => ['code' => 'TMT',  'symbol' => 'T'],
+	'Turkish Lira'                      => ['code' => 'TRY',  'symbol' => '&#8378;'],
+	'UAE Dirham'                        => ['code' => 'AED',  'symbol' => '&#1583;.&#1573;'],
+	'Ugandan Shilling'                  => ['code' => 'UGX',  'symbol' => 'USh'],
+	'Ukrainian Hryvnia'                 => ['code' => 'UAH',  'symbol' => '&#8372;'],
+	'Uruguayan Peso'                    => ['code' => 'UYU',  'symbol' => '&#36;U'],
+	'US Dollar'                         => ['code' => 'USD',  'symbol' => '&#36;'],
+	'Uzbekistani Sum'                   => ['code' => 'UZS',  'symbol' => '&#1083;&#1074;'],
+	'Vanuatu Vatu'                      => ['code' => 'VUV',  'symbol' => 'Vt'],
+	'Venezuelan Bolívar'                => ['code' => 'VES',  'symbol' => 'Bs.S'],
+	'Vietnamese Dong'                   => ['code' => 'VND',  'symbol' => '&#8363;'],
+	'West African CFA Franc'            => ['code' => 'XOF',  'symbol' => 'Fr'],
+	'Yemeni Rial'                       => ['code' => 'YER',  'symbol' => '&#65020;'],
+	'Zambian Kwacha'                    => ['code' => 'ZMW',  'symbol' => 'ZK'],
+	'Zimbabwean Dollar'                 => ['code' => 'ZWL',  'symbol' => 'Z&#36;'],
 
 	// ── Cryptocurrencies ─────────────────────────────────────────────
-	'BTC' => 'BTC',             // Bitcoin
-	'ETH' => 'ETH',             // Ethereum
-	'USDT' => 'USDT',           // Tether
+	'Bitcoin'                           => ['code' => 'BTC',  'symbol' => 'BTC'],
+	'Ethereum'                          => ['code' => 'ETH',  'symbol' => 'ETH'],
+	'Tether'                            => ['code' => 'USDT', 'symbol' => 'USDT'],
 );
 ?>

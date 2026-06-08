@@ -325,9 +325,8 @@ if (Auth('admin')->User()->dashboard_style == 'light') {
 
 function changecurr() {
        var e = document.getElementById("select_c");
-       var selected = e.options[e.selectedIndex].id;
+       var selected = e.options[e.selectedIndex].dataset.code;
        document.getElementById("s_c").value = selected;
-       console.log(selected);
    }
 
             </script>

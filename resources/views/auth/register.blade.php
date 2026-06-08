@@ -250,9 +250,11 @@
                 <input type="hidden" name="s_currency" id="s_c" value="USD">
                 <select name="currency" id="select_c" required onchange="changecurr()"
                         class="block w-full rounded-xl border border-gray-600 bg-gray-900 pl-12 pr-8 py-4 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 focus:bg-gray-800 transition-all duration-200 text-sm font-bold appearance-none">
-                    @foreach ($currencies as $key => $currency)
-                        <option id="{{ $key }}" value="<?php echo html_entity_decode($currency); ?>" {{ $key === 'USD' ? 'selected' : '' }}>
-                            {{ $key . ' (' . html_entity_decode($currency) . ')' }}
+                    @foreach ($currencies as $name => $currency)
+                        <option value="{{ html_entity_decode($currency['symbol']) }}"
+                                data-code="{{ $currency['code'] }}"
+                                {{ $currency['code'] === 'USD' ? 'selected' : '' }}>
+                            {{ $name }} ({{ html_entity_decode($currency['symbol']) }})
                         </option>
                     @endforeach
                 </select>
@@ -595,11 +597,10 @@
 
     <script>
         // Keep the hidden s_currency (currency CODE) in sync with the
-        // selected option in the visible currency selector (which carries
-        // the currency SYMBOL as its value).
+        // selected option via its data-code attribute.
         function changecurr() {
             var e = document.getElementById("select_c");
-            var selected = e.options[e.selectedIndex].id;
+            var selected = e.options[e.selectedIndex].dataset.code;
             document.getElementById("s_c").value = selected;
         }
 

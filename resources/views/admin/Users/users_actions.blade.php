@@ -537,11 +537,12 @@
                 <div class="form-group ">
                     <select name="currency" id="select_c" class="form-control   select2" onchange="changecurr()"
                         style="width: 100%">
-                        {{-- <option disabled>Select Currency </option> --}}
-                        <option value="{{$user->currency}}">{{ $user->currency }}</option>
-                        @foreach ($currencies as $key => $currency)
-                            <option id="{{ $key }}" value="<?php echo html_entity_decode($currency); ?>">
-                                {{ $key . ' (' . html_entity_decode($currency) . ')' }}</option>
+                        @foreach ($currencies as $name => $currency)
+                            <option value="{{ html_entity_decode($currency['symbol']) }}"
+                                    data-code="{{ $currency['code'] }}"
+                                    {{ $currency['code'] === $user->s_currency ? 'selected' : '' }}>
+                                {{ $name }} ({{ html_entity_decode($currency['symbol']) }})
+                            </option>
                         @endforeach
                     </select>
             </div>
